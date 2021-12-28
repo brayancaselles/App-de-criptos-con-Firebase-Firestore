@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_trader.*
 /**
  * @author Brayan Bermudez
  * github brayancaselles
+ * https://github.com/brayancaselles/App-de-criptos-con-Firebase-Firestore
  */
 
 
