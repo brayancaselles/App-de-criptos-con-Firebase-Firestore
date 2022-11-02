@@ -13,9 +13,9 @@ import com.platzi.android.firestore.model.User
 import com.platzi.android.firestore.networ.Callback
 import com.platzi.android.firestore.networ.FirestoreService
 import com.platzi.android.firestore.networ.USER_COLLECTION_NAME
+import java.lang.Exception
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_trader.*
-import java.lang.Exception
 
 /**
  * @author Brayan Bermudez
@@ -23,15 +23,13 @@ import java.lang.Exception
  * https://github.com/brayancaselles/App-de-criptos-con-Firebase-Firestore
  */
 
-
 const val USERNAME_KEY = "username_key"
 
 class LoginActivity : AppCompatActivity() {
 
-
     private val TAG = "LoginActivity"
-    private var auth:FirebaseAuth = FirebaseAuth.getInstance()
-    lateinit var firestoreService: FirestoreService
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var firestoreService: FirestoreService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,19 +37,37 @@ class LoginActivity : AppCompatActivity() {
         firestoreService = FirestoreService(FirebaseFirestore.getInstance())
     }
 
-
     fun onStartClicked(view: View) {
         view.isEnabled = false
-        auth.signInAnonymously().addOnCompleteListener{
-            task ->
-            if(task.isSuccessful){
+        auth.signInAnonymously().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 val userName = username.text.toString()
+
+                firestoreService.findUserById(
+                    userName,
+                    object : Callback<User> {
+                        override fun onSuccess(result: User?) {
+                            if (result == null) {
+                                val user = User()
+                                user.userName = userName
+                                saveUserAndStartMainActivity(user, view)
+                            } else {
+                                startMainActivity(userName)
+                            }
+                        }
+
+                        override fun onFailed(exception: Exception) {
+                            showErrorMessage(view)
+                        }
+                    }
+                )
+
                 val user = User()
                 user.userName = userName
                 saveUserAndStartMainActivity(user, view)
                 println("El nombre del Usuario es: $userName")
                 startMainActivity(userName)
-            }else{
+            } else {
                 showErrorMessage(view)
                 view.isEnabled = true
             }
@@ -59,21 +75,30 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun saveUserAndStartMainActivity(user: User, view: View) {
-        firestoreService.setDocument(user, USER_COLLECTION_NAME, user.userName,object : Callback<Void>{
-            override fun onSuccess(result: Void?) {
-                startMainActivity(user.userName)
-            }
-            override fun onFailed(exception: Exception) {
-                showErrorMessage(view)
-                Log.e(TAG,"Error", exception)
-                view.isEnabled = true
-            }
+        firestoreService.setDocument(
+            user,
+            USER_COLLECTION_NAME,
+            user.userName,
+            object : Callback<Void> {
+                override fun onSuccess(result: Void?) {
+                    startMainActivity(user.userName)
+                }
 
-        })
+                override fun onFailed(exception: Exception) {
+                    showErrorMessage(view)
+                    Log.e(TAG, "Error", exception)
+                    view.isEnabled = true
+                }
+            }
+        )
     }
 
     private fun showErrorMessage(view: View) {
-        Snackbar.make(view, getString(R.string.error_while_connecting_to_the_server), Snackbar.LENGTH_LONG)
+        Snackbar.make(
+            view,
+            getString(R.string.error_while_connecting_to_the_server),
+            Snackbar.LENGTH_LONG
+        )
             .setAction("Info", null).show()
     }
 
@@ -83,5 +108,4 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
 }

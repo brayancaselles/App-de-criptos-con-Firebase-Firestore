@@ -6,13 +6,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.platzi.android.firestore.R
 import kotlinx.android.synthetic.main.activity_trader.*
 
-
 /**
- * @author Santiago Carrillo
- * 2/14/19.
+ * @author Brayan Bermudez
+ * github brayancaselles
+ * https://github.com/brayancaselles/App-de-criptos-con-Firebase-Firestore
  */
 class TraderActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,11 +21,14 @@ class TraderActivity : AppCompatActivity() {
             Snackbar.make(view, getString(R.string.generating_new_cryptos), Snackbar.LENGTH_SHORT)
                 .setAction("Info", null).show()
         }
-
     }
 
     fun showGeneralServerErrorMessage() {
-        Snackbar.make(fab, getString(R.string.error_while_connecting_to_the_server), Snackbar.LENGTH_LONG)
+        Snackbar.make(
+            fab,
+            getString(R.string.error_while_connecting_to_the_server),
+            Snackbar.LENGTH_LONG
+        )
             .setAction("Info", null).show()
     }
 }
