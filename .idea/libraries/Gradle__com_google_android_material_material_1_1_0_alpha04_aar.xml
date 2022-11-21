@@ -1,14 +1,16 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.android.material:material:1.1.0-alpha04@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-1.1.0-alpha04.aar/de446eb6a6f5bf324c67f043d2a16884/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2635796018bd67f48cd93d67a9a5a487/material-1.1.0-alpha04/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-1.1.0-alpha04.aar/de446eb6a6f5bf324c67f043d2a16884/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-1.1.0-alpha04.aar/de446eb6a6f5bf324c67f043d2a16884/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-1.1.0-alpha04.aar/de446eb6a6f5bf324c67f043d2a16884/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2635796018bd67f48cd93d67a9a5a487/material-1.1.0-alpha04/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2635796018bd67f48cd93d67a9a5a487/material-1.1.0-alpha04/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2635796018bd67f48cd93d67a9a5a487/material-1.1.0-alpha04/res" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.material/material/1.1.0-alpha04/a2fab1661eb6eb255395c42104bbfe5c93ea28ff/material-1.1.0-alpha04-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
