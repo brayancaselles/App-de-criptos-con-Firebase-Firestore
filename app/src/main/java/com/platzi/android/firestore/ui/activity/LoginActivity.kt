@@ -12,10 +12,8 @@ import com.platzi.android.firestore.R
 import com.platzi.android.firestore.model.User
 import com.platzi.android.firestore.networ.Callback
 import com.platzi.android.firestore.networ.FirestoreService
-import com.platzi.android.firestore.networ.USER_COLLECTION_NAME
-import java.lang.Exception
+import com.platzi.android.firestore.networ.USERS_COLLECTION_NAME
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_trader.*
 
 /**
  * @author Brayan Bermudez
@@ -77,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
     private fun saveUserAndStartMainActivity(user: User, view: View) {
         firestoreService.setDocument(
             user,
-            USER_COLLECTION_NAME,
+            USERS_COLLECTION_NAME,
             user.userName,
             object : Callback<Void> {
                 override fun onSuccess(result: Void?) {

@@ -167,7 +167,6 @@ class TraderActivity : AppCompatActivity(), CryptosAdapterListener {
 
     override fun onBuyCryptoClicked(crypto: Crypto) {
         if (crypto.available > 0) {
-            Log.d("Tag------------", "user: ${user!!.userName}")
             for (userCrypto in user!!.cryptosList!!) {
                 if (userCrypto.name == crypto.name) {
                     userCrypto.available += 1

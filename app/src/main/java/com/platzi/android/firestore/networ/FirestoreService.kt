@@ -5,9 +5,9 @@ import com.platzi.android.firestore.model.Crypto
 import com.platzi.android.firestore.model.User
 
 const val CRYPTO_COLLECTION_NAME = "cryptos"
-const val USER_COLLECTION_NAME = "users"
+const val USERS_COLLECTION_NAME = "users"
 
-class FirestoreService(private val firebaseFirestore: FirebaseFirestore) {
+class FirestoreService(val firebaseFirestore: FirebaseFirestore) {
 
     fun setDocument(data: Any, collectionName: String, id: String, callback: Callback<Void>) {
         firebaseFirestore.collection(collectionName).document(id).set(data)
@@ -16,8 +16,8 @@ class FirestoreService(private val firebaseFirestore: FirebaseFirestore) {
     }
 
     fun updateUser(user: User, callback: Callback<User>?) {
-        firebaseFirestore.collection(USER_COLLECTION_NAME).document(user.userName)
-            .update("criptoList", user.cryptosList)
+        firebaseFirestore.collection(USERS_COLLECTION_NAME).document(user.userName)
+            .update("cryptosList", user.cryptosList)
             .addOnSuccessListener { result ->
                 if (callback != null) {
                     callback.onSuccess(user)
@@ -32,54 +32,52 @@ class FirestoreService(private val firebaseFirestore: FirebaseFirestore) {
     }
 
     fun getCryptos(callback: Callback<List<Crypto>>?) {
-        firebaseFirestore.collection(CRYPTO_COLLECTION_NAME).get()
+        firebaseFirestore.collection(CRYPTO_COLLECTION_NAME)
+            .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     val cryptoList = result.toObjects(Crypto::class.java)
                     callback!!.onSuccess(cryptoList)
                     break
                 }
-            }.addOnFailureListener { exception ->
-                callback!!.onFailed(exception)
             }
+            .addOnFailureListener { exception -> callback!!.onFailed(exception) }
     }
 
     fun findUserById(id: String, callback: Callback<User>) {
-        firebaseFirestore.collection(USER_COLLECTION_NAME).document(id).get()
+        firebaseFirestore.collection(USERS_COLLECTION_NAME).document(id)
+            .get()
             .addOnSuccessListener { result ->
                 if (result.data != null) {
                     callback.onSuccess(result.toObject(User::class.java))
                 } else {
                     callback.onSuccess(null)
                 }
-            }.addOnFailureListener { exception ->
-                callback.onFailed(exception)
             }
+            .addOnFailureListener { exception -> callback.onFailed(exception) }
     }
 
     fun listenForUpdates(cryptos: List<Crypto>, listener: RealTimeListener<Crypto>) {
         val cryptoReference = firebaseFirestore.collection(CRYPTO_COLLECTION_NAME)
         for (crypto in cryptos) {
-            cryptoReference.document(crypto.getDocumentId())
-                .addSnapshotListener { snapshot, error ->
-                    if (error != null) {
-                        listener.onError(error)
-                    }
-
-                    if (snapshot != null && snapshot.exists()) {
-                        listener.onDataChange(snapshot.toObject(Crypto::class.java)!!)
-                    }
+            cryptoReference.document(crypto.getDocumentId()).addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    listener.onError(e)
                 }
+                if (snapshot != null && snapshot.exists()) {
+                    listener.onDataChange(snapshot.toObject(Crypto::class.java)!!)
+                }
+            }
         }
     }
 
     fun listenForUpdates(user: User, listener: RealTimeListener<User>) {
-        val userReference = firebaseFirestore.collection(USER_COLLECTION_NAME)
-        userReference.document(user.userName).addSnapshotListener { snapshot, error ->
-            if (error != null) {
-                listener.onError(error)
-            }
+        val usersReference = firebaseFirestore.collection(USERS_COLLECTION_NAME)
 
+        usersReference.document(user.userName).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                listener.onError(e)
+            }
             if (snapshot != null && snapshot.exists()) {
                 listener.onDataChange(snapshot.toObject(User::class.java)!!)
             }
