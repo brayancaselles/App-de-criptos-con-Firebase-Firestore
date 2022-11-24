@@ -1,5 +1,6 @@
 package com.platzi.android.firestore.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +36,8 @@ class CryptosAdapter(private val cryptosAdapterListener: CryptosAdapterListener)
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(p0.context)
-        return ViewHolder(layoutInflater.inflate(R.layout.crypto_row, p0, false))
+        val view = LayoutInflater.from(p0.context).inflate(R.layout.crypto_row, p0, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
